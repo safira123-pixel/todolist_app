@@ -52,4 +52,16 @@ class AuthController extends Controller
         'user' => $user,
     ]);
    }
+
+   public function logout(){
+       try {
+           auth()->user()->tokens()->delete();
+           return $this->apiSuccess('Tokens Revoked');
+       } catch (\throwable $e){
+            throw new HttpResponseException($this->apiError(
+                null,
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            ));
+       }
+   }
 }
